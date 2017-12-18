@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link href="css/materialize.min.css" rel="stylesheet">
+	<link href='http://fonts.font.im/css?family=Nothing+You+Could+Do' rel='stylesheet' type='text/css'>
+	<script type="text/javascript" src="http://cdn.webfont.youziku.com/wwwroot/js/wf/youziku.api.min.js"></script>
+	<script src="js/jquery-1.4.2.min.js"></script>
+	<title>Materialize</title>
+	<style>
+		.text {
+			/*font-family : 'Nothing You Could Do', cursive;*/
+			font-size  : 32px;
+			display    : table;
+			margin     : 0 auto;
+			margin-top : 180px;
+			color      : #391e27;
+		}
+		.name {
+			font-size : 24px;
+		}
+		#canvas {
+			opacity : 0;
+		}
+	</style>
+</head>
+<body>
+<p class="text">
+	《行香子·秋与》
+	<span class="name">宋代：苏轼</span><br>
+	昨夜霜风。<br>
+	先入梧桐。<br>
+	浑无处、回避衰容。<br>
+	问公何事，不语书空。<br>
+	但一回醉，一回病，一回慵；<br>
+	朝来庭下，光阴如箭，似无言、有意伤侬。<br>
+	都将万事，付与千钟。<br>
+	任酒花白，眼花乱，烛花红<br>
+</p>
+<script type="text/javascript">
+	$youziku.load("body","839527afd67a40e6b2db454bd1fa07e1","LiXuke");
+	$youziku.draw();
+</script>
+</body>
+</html>

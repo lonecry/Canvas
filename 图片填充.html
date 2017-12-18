@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<title>canvas-图片填充</title>
+	<link rel="shortcut icon" sizes="32x32" href="http://simpleqq.com/imgs/sw.jpg">
+	<meta charset="utf-8"/>
+	<link rel="stylesheet" href="./css/style.css">
+	<script src="./js/jquery-1.4.2.min.js"></script>
+	<script>
+		init();
+		$(window).resize(init);
+		function init(){
+			var w = $(window).width();
+			var h = $(window).height();
+			$("html").css({fontSize:w/750*100 + "px"});
+		}
+	</script>
+</head>
+<body>
+<canvas id="canvas" width="800" height="800"></canvas>
+<img class="loading" src="./images/loading.gif" alt="">
+<script>
+	$(function(){
+		var canvas = document.getElementById('canvas');
+		canvas.width = 1400;
+		canvas.height = 800;
+		var context = canvas.getContext('2d');
+		var background = new Image();
+		background.src = './images/test.jpg';
+		background.onload = function(){
+			var pattern = context.createPattern(background,"repeat");
+			context.fillStyle = pattern;
+			context.fillRect(0,0,canvas.width,canvas.height)
+			for(var i = 0 ; i < 200 ; i++){
+				var r = Math.random()*10;//10~20
+				var R = Math.random()*10;
+				var x = Math.random()*canvas.width;
+				var y = Math.random()*canvas.height*0.55;
+				var a = Math.random()*360;
+				DrawStar(context,R/2.0,R,x,y,a)
+			}
+		};
+
+		function DrawStar(ctx,r,R,x,y,a){
+			ctx.beginPath();
+			for(var i = 0 ; i < 5 ; i++){
+				ctx.lineTo(Math.cos((18 + 72*i - a)/180*Math.PI)*R + x,-Math.sin((18 + 72*i - a)/180*Math.PI)*R + y);
+				ctx.lineTo(Math.cos((54 + 72*i - a)/180*Math.PI)*r + x,-Math.sin((54 + 72*i - a)/180*Math.PI)*r + y);
+			}
+			ctx.closePath();
+			ctx.strokeStyle = '#fdffdc';
+			ctx.lineWidth = '3';
+			ctx.fillStyle = '#eead12';
+			ctx.stroke()
+			ctx.fill()
+		}
+
+	});
+</script>
+</body>
+</html>

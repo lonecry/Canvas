@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<title>canvas-图片填充</title>
+	<link rel="shortcut icon" sizes="32x32" href="http://simpleqq.com/imgs/sw.jpg">
+	<meta charset="utf-8"/>
+	<link rel="stylesheet" href="./css/style.css">
+	<script src="./js/jquery-1.4.2.min.js"></script>
+	<script>
+		init();
+		$(window).resize(init);
+		function init(){
+			var w = $(window).width();
+			var h = $(window).height();
+			$("html").css({fontSize:w/750*100 + "px"});
+		}
+	</script>
+</head>
+<body>
+<canvas id="canvas" width="800" height="800"></canvas>
+<img class="loading" src="./images/loading.gif" alt="">
+<script>
+	$(function(){
+		var canvas = document.getElementById('canvas');
+		var context = canvas.getContext('2d');
+		canvas.width = 1400;
+		canvas.height = 800;
+		context.font = ' 50px Arial';
+		//填充
+		context.fillStyle = '#dd8569'
+		context.fillText('朝来庭下，光阴如箭，似无言、有意伤侬。',40,100)
+		//边框
+		context.strokeStyle = '#4c6add'
+		context.strokeText('朝来庭下，光阴如箭，似无言、有意伤侬。',40,200)
+		context.save()
+		//渐变 填充
+		var lineGrad = context.createLinearGradient(0,0,800,0)
+		lineGrad.addColorStop(0.0,'#ddd')
+		lineGrad.addColorStop(0.25,'#dd7bc8')
+		lineGrad.addColorStop(0.50,'#0fdd91')
+		lineGrad.addColorStop(0.75,'#4947dd')
+		lineGrad.addColorStop(1.0,'#d0dd66');
+
+		context.fillStyle = lineGrad;
+		context.fillText('朝来庭下，光阴如箭，似无言、有意伤侬。',40,300)
+		//渐变 边框
+		context.strokeStyle = lineGrad;
+		context.strokeText('朝来庭下，光阴如箭，似无言、有意伤侬。',40,400)
+		//背景填充
+		var background = new Image()
+		background.src = './images/4.jpg';
+		background.onload = function(){
+			var pattern = context.createPattern(background,'repeat');
+			context.fillStyle = pattern;
+			context.font = '200px Arial';
+			context.strokeStyle = lineGrad
+			context.fillText('《行香子·秋与》',10,600);
+//			context.strokeText('《行香子·秋与》',10,600)
+
+		}
+
+	});
+</script>
+</body>
+</html>

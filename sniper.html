@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<script src="./js/jquery-1.4.2.min.js"></script>
+	<style type="text/css">
+	</style>
+	<title>狙击-兵临城下</title>
+	<style>
+		* {
+			margin  : 0;
+			padding : 0;
+		}
+		#canvas {
+			display         : block;
+			margin          : 0 auto;
+			/*border          : 1px solid rgba(0, 0, 0, 0.69);*/
+			/*margin-top      : 50px;*/
+			background      : url("./images/lol.jpg") center center no-repeat;
+			background-size : 100% 100%;
+		}
+		button {
+			width            : 80px;
+			height           : 40px;
+			border-radius    : 10px;
+			color            : white;
+			line-height      : 40px;
+			font-size        : 18px;
+			text-align       : center;
+			float            : left;
+			margin-top       : 50px;
+			margin-left      : 50px;
+			z-index          : 999;
+			background-color : #497cff;
+			outline          : none;
+		}
+		.btn1 {
+			position : absolute;
+			left     : 30px;
+			top      : 50px;
+			display  : none;
+		}
+		.btn2 {
+			position : absolute;
+			left     : 30px;
+			top      : 50px; display : none;
+		}
+	</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<button class="btn1">开始</button>
+<button class="btn2">暂停</button>
+<script>
+	var canvas = document.getElementById('canvas');
+	var context = canvas.getContext('2d');
+	canvas.width = innerWidth;
+	canvas.height = innerHeight;
+	var img = new Image();
+	img.src = './images/lol.jpg';
+
+	var raduis = innerWidth*0.15;
+	var speed = 1;
+	var i = 1;
+	var maxX = canvas.width - raduis;
+	var maxY = canvas.height - raduis;
+	var sx = parseInt(RandomNumBoth(raduis,maxX));
+	var sy = parseInt(RandomNumBoth(raduis,maxY));
+	var randomsita = RandomNumBoth(0,2*Math.PI)
+	speedX = speed*Math.cos(randomsita);
+	speedY = speed*Math.sin(randomsita);
+	var lx = sx,
+		ly = sy;
+	//	var lx = 960,
+	//		ly = 470;
+	//	外圈
+	function Camera(){
+		context.save()
+		context.beginPath()
+		context.lineWidth = 1;
+		//		context.strokeStyle = 'red';
+		context.lineCap = "round";
+
+		context.arc(lx,ly,raduis,0,2*Math.PI,false);
+		context.stroke();
+		context.restore()
+		//	内水平线
+		context.beginPath()
+		context.strokeStyle = '#000000'
+
+		context.lineWidth = Math.floor(raduis*0.01);
+		context.moveTo(lx - raduis*0.906,ly - raduis*0.098);
+		context.lineTo(lx - raduis*0.521,ly - raduis*0.098);
+
+		context.moveTo(lx + raduis*0.906,ly - raduis*0.098);
+		context.lineTo(lx + raduis*0.521,ly - raduis*0.098);
+		context.stroke();
+		//中间三段 箭头Start
+		context.moveTo(lx - raduis*0.098,ly);
+		context.lineTo(lx,ly - raduis*0.098);
+		context.lineTo(lx + raduis*0.098,ly);
+		context.stroke();
+
+		context.moveTo(lx - raduis*0.098,ly + raduis*0.098*2);
+		context.lineTo(lx,ly + raduis*0.098);
+		context.lineTo(lx + raduis*0.098,ly + raduis*0.098*2);
+		context.stroke();
+
+		context.moveTo(lx - raduis*0.098,ly + raduis*0.098*4);
+		context.lineTo(lx,ly + raduis*0.098*3);
+		context.lineTo(lx + raduis*0.098,ly + raduis*0.098*4);
+		context.stroke();
+
+		context.moveTo(lx,ly + raduis*0.098*3);
+		context.lineTo(lx,ly + raduis*0.777);
+		context.stroke();
+
+		//中间三段 箭头End
+
+		//刻度尺 粗
+		context.beginPath()
+		context.lineWidth = Math.floor(raduis*0.01);
+		context.moveTo(lx - raduis*0.501,ly - raduis*0.092);
+		context.lineTo(lx - raduis*0.501,ly + raduis*0.04);
+		context.stroke();
+		context.moveTo(lx - raduis*0.284,ly - raduis*0.092);
+		context.lineTo(lx - raduis*0.284,ly + raduis*0.04);
+		context.stroke();
+		context.moveTo(lx + raduis*0.501,ly - raduis*0.092);
+		context.lineTo(lx + raduis*0.501,ly + raduis*0.04);
+		context.stroke();
+		context.moveTo(lx + raduis*0.284,ly - raduis*0.092);
+		context.lineTo(lx + raduis*0.284,ly + raduis*0.04);
+		context.stroke();
+
+		//刻度尺 细
+		context.beginPath();
+		context.lineWidth = Math.floor(raduis*0.005);
+		//	left
+		context.moveTo(lx - raduis*0.459,ly - raduis*0.092);
+		context.lineTo(lx - raduis*0.459,ly);
+		context.moveTo(lx - raduis*0.414,ly - raduis*0.092);
+		context.lineTo(lx - raduis*0.414,ly);
+		context.moveTo(lx - raduis*0.369,ly - raduis*0.092);
+		context.lineTo(lx - raduis*0.369,ly);
+		context.moveTo(lx - raduis*0.324,ly - raduis*0.092);
+		context.lineTo(lx - raduis*0.324,ly);
+		context.moveTo(lx - raduis*0.237,ly - raduis*0.092);
+		context.lineTo(lx - raduis*0.237,ly);
+		context.moveTo(lx - raduis*0.191,ly - raduis*0.092);
+		context.lineTo(lx - raduis*0.191,ly);
+		context.moveTo(lx - raduis*0.146,ly - raduis*0.092);
+		context.lineTo(lx - raduis*0.146,ly);
+		context.moveTo(lx - raduis*0.100,ly - raduis*0.092);
+		context.lineTo(lx - raduis*0.100,ly);
+		//	right
+		context.moveTo(lx + raduis*0.459,ly - raduis*0.092);
+		context.lineTo(lx + raduis*0.459,ly);
+		context.moveTo(lx + raduis*0.414,ly - raduis*0.092);
+		context.lineTo(lx + raduis*0.414,ly);
+		context.moveTo(lx + raduis*0.369,ly - raduis*0.092);
+		context.lineTo(lx + raduis*0.369,ly);
+		context.moveTo(lx + raduis*0.324,ly - raduis*0.092);
+		context.lineTo(lx + raduis*0.324,ly);
+		context.moveTo(lx + raduis*0.237,ly - raduis*0.092);
+		context.lineTo(lx + raduis*0.237,ly);
+		context.moveTo(lx + raduis*0.191,ly - raduis*0.092);
+		context.lineTo(lx + raduis*0.191,ly);
+		context.moveTo(lx + raduis*0.146,ly - raduis*0.092);
+		context.lineTo(lx + raduis*0.146,ly);
+		context.moveTo(lx + raduis*0.100,ly - raduis*0.092);
+		context.lineTo(lx + raduis*0.100,ly);
+		context.stroke();
+		//刻度尺
+		context.beginPath()
+		context.lineWidth = Math.floor(raduis*0.01);
+		context.lineCap = 'square';
+		context.moveTo(lx - raduis*0.737,ly + raduis*0.540);
+		context.lineTo(lx - raduis*0.18,ly + raduis*0.540);
+		context.stroke();
+		context.lineWidth = Math.floor(raduis*0.005);
+		context.moveTo(lx - raduis*0.742,ly + raduis*0.540);
+		context.lineTo(lx - raduis*0.742,ly + raduis*0.500);
+		context.stroke();
+
+		context.beginPath()
+		context.lineWidth = Math.floor(raduis*0.005);
+		context.moveTo(lx - raduis*0.740,ly + raduis*0.540);
+		context.quadraticCurveTo(lx - raduis*0.3,ly + raduis*0.450,lx - raduis*0.18,ly + raduis*0.146);
+		context.stroke();
+		context.moveTo(lx - raduis*0.587,ly + raduis*0.500);
+		context.lineTo(lx - raduis*0.587,ly + raduis*0.470);
+		context.stroke();
+		context.moveTo(lx - raduis*0.420,ly + raduis*0.420);
+		context.lineTo(lx - raduis*0.420,ly + raduis*0.390);
+		context.stroke();
+		context.moveTo(lx - raduis*0.287,ly + raduis*0.310);
+		context.lineTo(lx - raduis*0.287,ly + raduis*0.280);
+		context.stroke();
+		context.moveTo(lx - raduis*0.18,ly + raduis*0.146);
+		context.lineTo(lx - raduis*0.18,ly + raduis*0.120);
+		context.stroke();
+
+		//文字
+		context.beginPath()
+		var fonts = Math.floor(raduis*0.05) + 'px' + ' Verdana'
+		context.font = fonts;
+		context.fillStyle = '#040404'
+		context.fillText("10",lx - raduis*0.530,ly + raduis*0.10);
+		context.fillText("10",lx + raduis*0.470,ly + raduis*0.10);
+		context.fillText("10",lx - raduis*0.770,ly + raduis*0.480);
+		context.fillText("8",lx - raduis*0.60,ly + raduis*0.455);
+		context.fillText("6",lx - raduis*0.435,ly + raduis*0.38);
+		context.fillText("4",lx - raduis*0.305,ly + raduis*0.27);
+		context.fillText("2",lx - raduis*0.2,ly + raduis*0.115);
+		var locations = '(' + lx.toFixed(2) + '' + ',' + ly.toFixed(2) + ')';
+		context.fillStyle = '#fff'
+		context.fillText(locations,lx - raduis*0.7,ly + raduis*0.60);
+		context.restore()
+	}
+
+	window.requestAnimationFrame(render);
+
+	function render(){
+		i++;
+		context.translate(0,0);
+		var tx = speedX + lx;
+		var ty = speedY + ly;
+		context.beginPath();
+		context.globalAlpha = 0.9;
+		context.fillStyle = 'black';
+		context.clearRect(0,0,canvas.width,canvas.height)
+		context.fillRect(0,0,canvas.width,canvas.height)
+		context.save()
+		context.beginPath();
+		document.getElementById('canvas').style.borderColor = colorCircle(i);
+		context.arc(tx,ty,raduis,0,2*Math.PI,false);
+		context.clip()
+		context.drawImage(img,0,0,innerWidth,innerHeight);
+		context.restore()
+		context.closePath();
+		//以上一次的动画的终点作为下一次动画的起点
+		lx = tx;
+		ly = ty;
+
+		//碰撞检测——X
+		if((lx < raduis) || (lx > maxX)){
+			speedX = speedX*(-1)
+		}
+		//碰撞检测——Y
+
+		if((ly < raduis) || (ly > maxY)){
+			speedY = speedY*(-1)
+		}
+		Camera()
+		//动画循环调用
+		window.requestAnimationFrame(render);
+
+	}
+
+	function RandomNumBoth(Min,Max){
+		var Range = Max - Min;
+		var Rand = Math.random();
+		var num = Min + Math.round(Rand*Range); //四舍五入
+		return num;
+	}
+
+	function colorCircle(i){
+		var r = 0,
+			g = 0,
+			b = 0;
+		i = i%1530;
+		var k = Math.floor(i/255);
+		i = i%255;
+		switch(k){
+			case  0:
+				r = 0;
+				g = 255;
+				b = 255 - i;
+				return "rgb(" + r + "," + g + "," + b + ")";
+				break;
+			case  1:
+				r = i;
+				g = 255;
+				b = 0;
+				return "rgb(" + r + "," + g + "," + b + ")";
+				break;
+			case 2:
+				r = 255;
+				g = 255 - i;
+				b = 0;
+				return "rgb(" + r + "," + g + "," + b + ")";
+				break;
+			case 3:
+				r = 255;
+				g = 0;
+				b = i;
+				return "rgb(" + r + "," + g + "," + b + ")";
+				break;
+			case 4:
+				r = 255 - i;
+				g = 0;
+				b = 255;
+				return "rgb(" + r + "," + g + "," + b + ")";
+				break;
+			case 5:
+				r = 0;
+				g = i;
+				b = 255;
+				return "rgb(" + r + "," + g + "," + b + ")";
+				break;
+
+		}
+
+	}
+
+	$('.btn2').click(function(){
+		var id = requestAnimationFrame(render);
+		window.cancelAnimationFrame(id);
+	})
+</script>
+</body>
+</html>

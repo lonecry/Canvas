@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<title>canvas-图片填充</title>
+	<link rel="shortcut icon" sizes="32x32" href="http://simpleqq.com/imgs/sw.jpg">
+	<meta charset="utf-8"/>
+	<link rel="stylesheet" href="./css/style.css">
+	<script src="./js/jquery-1.4.2.min.js"></script>
+	<script>
+		init();
+		$(window).resize(init);
+		function init(){
+			var w = $(window).width();
+			var h = $(window).height();
+			$("html").css({fontSize:w/750*100 + "px"});
+		}
+	</script>
+</head>
+<body>
+<canvas id="canvas" width="800" height="800"></canvas>
+<img class="loading" src="./images/loading.gif" alt="">
+<script>
+	$(function(){
+		var canvas = document.getElementById('canvas');
+		canvas.width = 1400;
+		canvas.height = 800;
+		var context = canvas.getContext('2d');
+		context.lineWidth = '1';
+		for(var i = 0 ; i < 15 ; i++){
+			context.beginPath();
+			context.arc(50 + 100*i,50,40,0,2*Math.PI*(i + 1)/15);// x,y,r,sangle,eangle,clockwise
+			//			context.closePath();
+			context.strokeStyle = '#ff5264';
+			context.stroke()
+		}
+		context.strokeStyle = '#ff5264';
+		context.fillStyle = '#ff5264';
+		for(var i = 0 ; i < 15 ; i++){
+			context.beginPath()
+			context.arc(50 + 100*i,50,40,0,2*Math.PI*(i + 1)/15,true);// x,y,r,sangle,eangle,clockwise
+			context.closePath();
+			context.fill()
+			context.stroke()
+		}
+
+		function drawRectWithRadius(x,y,r,radius){
+			context.beginPath();
+			var a = r/2;
+			context.moveTo(x - a,y - a + radius);
+			context.arcTo(x - a,y - a,x - a + radius,y - a,radius);
+			context.lineTo(x + a - radius,y - a)
+			context.arcTo(x + a,y - a,x + a,y - a + radius,radius);
+			context.lineTo(x + a,y + a - radius);
+			context.arcTo(x + a,y + a,x + a - radius,y + a,radius);
+			context.lineTo(x - a + radius,y + a);
+			context.arcTo(x - a,y + a,x - a,y + a - radius,radius);
+			context.closePath();
+			context.strokeStyle = '#ff5264';
+			context.stroke()
+
+		}
+
+		drawRectWithRadius(300,300,400,400)
+
+//				context.beginPath()
+		//				context.moveTo(200,250)
+		//				context.arcTo(200,200,250,200,50)
+		//				context.lineTo(550,200)
+		//				context.arcTo(600,200,600,250,50)
+		//				context.lineTo(600,550)
+		//				context.arcTo(600,600,550,600,50)
+		//				context.lineTo(250,600)
+		//				context.arcTo(200,600,200,550,50)
+		//				context.closePath()
+		//				context.strokeStyle = '#ff5264';
+		//				context.stroke()
+
+	});
+</script>
+</body>
+</html>

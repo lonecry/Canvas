@@ -1,0 +1,17 @@
+* { margin : 0; padding : 0 }
+body {
+	padding-top : 100px;
+	width       : 100%;
+}
+.loading {
+	width    : 100px; height : auto;
+	position : absolute;
+	left     : 10px;
+	top      : 10px;
+}
+#canvas {
+	display  : block;
+	margin   : 0 auto;
+	border   : 1px solid grey;
+	behavior : url(/css/ie-css3.htc);
+}
