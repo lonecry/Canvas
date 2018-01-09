@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<script src="js/jquery-1.4.2.min.js"></script>
+	<script src="js/ocad.js"></script>
+	<style type="text/css">
+	</style>
+	<title>stroke路径</title>
+	<style>
+		#canvas {
+			display         : block;
+			margin          : 0 auto;
+			background-size : 100% 100%;
+			border          : 1px solid red;
+		}
+	</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<img src="" class="img" alt="">
+<script>
+	var canvas = document.getElementById('canvas');
+	var context = canvas.getContext('2d');
+	canvas.width = 400;
+	canvas.height = 400;
+
+	var img = new Image()
+	img.src = './images/666.jpg';
+	img.onload = function(ev){
+		//var string = OCRAD(img);
+		//console.log(string);
+
+	}
+	canvas.addEventListener('mousemove',onMouseMove,false);
+	canvas.addEventListener('mousedown',onMouseDown,false);
+	canvas.addEventListener('mouseup',onMouseUp,false);
+
+	var context = canvas.getContext('2d');
+	var linex = new Array();
+	var liney = new Array();
+	var linen = new Array();
+
+	var lastX = -1;
+	var lastY = -1;
+	var hue = 0;
+	var flag = 0;
+
+	function onMouseMove(evt){
+		if(flag == 1){
+			linex.push(evt.layerX);
+			liney.push(evt.layerY);
+			linen.push(1);
+			context.save();
+			context.translate(context.canvas.width/2,context.canvas.height/2);
+			context.translate(-context.canvas.width/2,-context.canvas.height/2);
+			context.lineWidth = 15;
+			context.beginPath()
+
+			for(var i = 1 ; i < linex.length ; i++){
+				lastX = linex[i];
+				lastY = liney[i];
+				if(linen[i] == 0){
+					context.moveTo(lastX,lastY);
+				}else{
+					context.lineTo(lastX,lastY);
+				}
+			}
+			context.strokeStyle = 'hsl(' + hue + ', 50%, 50%)';
+			//context.strokeStyle = '#ff1b33';
+
+			hue = hue + 10*Math.random();
+			context.lineJoin = 'round';
+			context.lineCap = 'round';
+
+			context.stroke();
+			context.restore();
+		}
+	}
+
+	function onMouseDown(evt){
+		flag = 1;
+		linex.push(evt.layerX);
+		liney.push(evt.layerY);
+		linen.push(0);
+		context.clearRect(0,0,canvas.width,canvas.height)
+		context.fillStyle = '#fff'
+		context.fillRect(0,0,400,400)
+	}
+
+	function onMouseUp(evt){
+		flag = 0;
+		linex.push(evt.layerX);
+		liney.push(evt.layerY);
+		linen.push(0);
+		imgFace()
+	}
+
+	function imgFace(){//图像识别
+		var dataURL = canvas.toDataURL("image/jpeg",1.0);
+		$('.img').attr('src',dataURL)
+		$('.img').load(function(){
+			var string = OCRAD(this);
+			console.log(string);
+		})
+
+	}
+</script>
+</body>
+</html>

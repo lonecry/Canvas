@@ -20,12 +20,10 @@
 			background      : url("./images/lol.jpg") center center no-repeat;
 			background-size : 100% 100%;
 		}
-	 
 	</style>
 </head>
 <body>
 <canvas id="canvas"></canvas>
-
 <script>
 	var canvas = document.getElementById('canvas');
 	var context = canvas.getContext('2d');
@@ -34,7 +32,7 @@
 	var img = new Image();
 	img.src = './images/lol.jpg';
 
-	var raduis = innerWidth*0.15;
+	var raduis = 150;
 	var speed = 1;
 	var i = 1;
 	var maxX = canvas.width - raduis;

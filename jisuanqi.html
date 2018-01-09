@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang = "zh-CN">
+<head>
+    <meta charset = "UTF-8">
+    <meta name = "viewport" content = "width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+    <title>计算器</title>
+    <script src = "https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        * {margin: 0;padding: 0}
+
+        body {
+            padding-top: 60px;
+        }
+
+        .all {
+            width: 100%;
+            height: 40px;
+            font-size: 25px;
+            box-sizing: border-box;
+            margin-top: 10px;
+            color: #2082ff;
+        }
+
+        button {
+            width: 85px;
+            height: 35px;
+            border-radius: 30px;
+            outline: none;
+            background: #2082ff;
+            font-size: 14px;
+            color: white;
+            margin: 0 auto;
+            margin-top: 10px;
+        }
+
+        table {
+            width: 100%;
+            border: 0;
+            text-align: left;
+            margin-top: 10px;
+        }
+
+        .items {
+            width: 100%;
+            height: 25px;
+            line-height: 25px;
+            border: 1px silver;
+        }
+
+        th {
+            width: 50%;
+            font-weight: lighter;
+        }
+
+        .n1, .n2, .n3 {
+            margin-left: 5%;
+        }
+    </style>
+</head>
+<body>
+<span>请输入价格(万元):</span>
+<input type = "text" class = "all" value = "140">
+<button class = "n1">满两年</button>
+<button class = "n3">清除</button>
+<button class = "n2">不满两年</button>
+
+<table border = "1" cellspacing = "0">
+    <tr class = "items">
+        <th>总价:</th>
+        <th class = "r1">0</th>
+    </tr>
+    <tr class = "items">
+        <th>总首付:</th>
+        <th class = "r2">0</th>
+    </tr>
+
+    <tr class = "items">
+        <th>月供(1.1倍):</th>
+        <th class = "r3">0</th>
+    </tr>
+    <tr class = "items">
+        <th>中介费：</th>
+        <th class = "r4">0</th>
+    </tr>
+    <tr class = "items">
+        <th>个税+契税(满5不唯一):</th>
+        <th class = "r5">0</th>
+    </tr>
+</table>
+<script>
+    $(function(){
+        $('.n1').click(function(){
+            var value = $('input').val()
+            if((value != 0) && (value != '')){
+
+                $('.r1').html(value + ' 万元')
+                var first = 0;
+                if(value > 100){
+                    var l1 = 3 + (value - 100) * 0.02//中介费
+                    var l2 = value * 0.3//首付
+                    var l3 = value * 0.02//个税加契税
+
+                    var yue = (value * 0.7 * 10000 * (0.049 * 1.1 / 12) * Math.pow((1 + 0.049 * 1.1 / 12),360)) / (Math.pow((1 + 0.049 * 1.1 / 12),360) - 1)
+                    $('.r2').html((l1 + l2 + l3).toFixed(2) + ' 万元')
+                    $('.r3').html(yue.toFixed(2) + ' 元')
+                    $('.r4').html(l1.toFixed(2) + ' 万元')
+                    $('.r5').html(l3.toFixed(2) + ' 万元')
+                } else {
+                    var l1 = 3 //中介费
+                    var l2 = value * 0.3//首付
+                    var l3 = value * 0.02//个税加契税
+                    var yue = (value * 0.7 * 10000 * (0.049 * 1.1 / 12) * Math.pow((1 + 0.049 * 1.1 / 12),360)) / (Math.pow((1 + 0.049 * 1.1 / 12),360) - 1)
+                    $('.r2').html((l1 + l2 + l3).toFixed(2) + ' 万元')
+                    $('.r3').html(yue.toFixed(2) + ' 元')
+                    $('.r4').html(l1.toFixed(2) + ' 万元')
+                    $('.r5').html(l3.toFixed(2) + ' 万元')
+                }
+            }
+
+
+        })
+        $('.n2').click(function(){
+            var value = $('input').val()
+            $('.r1').html(value + ' 万元')
+            if((value != 0) && (value != '')){
+
+                var first = 0;
+                if(value > 100){
+                    var l1 = 3 + (value - 100) * 0.02//中介费
+                    var l2 = value * 0.3//首付
+                    var l3 = value * 0.076//个税加契税
+
+                    var yue = (value * 0.7 * 10000 * (0.049 * 1.1 / 12) * Math.pow((1 + 0.049 * 1.1 / 12),360)) / (Math.pow((1 + 0.049 * 1.1 / 12),360) - 1)
+                    $('.r2').html((l1 + l2 + l3).toFixed(2) + ' 万元')
+                    $('.r3').html(yue.toFixed(2) + ' 元')
+                    $('.r4').html(l1.toFixed(2) + ' 万元')
+                    $('.r5').html(l3.toFixed(2) + ' 万元')
+                } else {
+                    var l1 = 3 //中介费
+                    var l2 = value * 0.3//首付
+                    var l3 = value * 0.076//个税加契税
+                    var yue = (value * 0.7 * 10000 * (0.049 * 1.1 / 12) * Math.pow((1 + 0.049 * 1.1 / 12),360)) / (Math.pow((1 + 0.049 * 1.1 / 12),360) - 1)
+                    $('.r2').html((l1 + l2 + l3).toFixed(2) + ' 万元')
+                    $('.r3').html(yue.toFixed(2) + ' 元')
+                    $('.r4').html(l1.toFixed(2) + ' 万元')
+                    $('.r5').html(l3.toFixed(2) + ' 万元')
+                }
+            }
+
+        })
+        $('.n3').click(function(){
+            $('input').val('0')
+        })
+    })
+</script>
+</body>
+</html>

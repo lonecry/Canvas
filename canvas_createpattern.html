@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv = "Content-Type" content = "text/html; charset=utf-8"/>
+    <meta name = "viewport" content = "width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>canvas-图片填充</title>
+    <meta charset = "utf-8"/>
+    <script src = "./js/jquery-1.4.2.min.js"></script>
+    <style>
+        #canvas {
+            display: block;
+            width: 400px;
+            height: 300px;
+            margin: 0 auto;
+            margin-top: 40px;
+            border: 1px solid rgba(255, 0, 0, 0.25);
+        }
+    </style>
+</head>
+<body>
+<canvas id = "canvas" class = "canvas"></canvas>
+<script>
+
+    $(function(){
+
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext('2d')
+        canvas.width = 400;
+        canvas.height = 300;
+        ctx.rect(0,0,150,200);
+
+        ctx.strokeStyle = '#000'
+        ctx.lineWidth = 1
+        ctx.stroke()
+
+        var img = new Image();
+        img.src = './images/cyx.jpg';
+
+        img.onload = function(){
+
+            var canvasTemp = document.createElement('canvas');
+            var contextTemp = canvasTemp.getContext('2d');
+            canvasTemp.width = 150; // 目标宽度
+            canvasTemp.height = 200; // 目标高度
+            contextTemp.drawImage(this,0,0,150,200)
+            var ptn = ctx.createPattern(canvasTemp,'no-repeat')
+            ctx.fillStyle = ptn;
+            ctx.fill();
+        }
+
+
+    });
+</script>
+</body>
+</html>
